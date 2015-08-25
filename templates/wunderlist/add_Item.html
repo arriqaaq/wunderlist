@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wunderlist</title>
+    </head>
+
+    <body>
+        <h1>Add an Item</h1>
+
+        <form id="Item_form" method="post" action="/wunderlist/add_Item/">
+
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+			<ul>
+				Category
+				<li>{{form.category}}</li>
+				Title:
+				<li> <input type="text" name="title" maxlength="120" ></li>
+				SubTask:
+				<li><input type="text" name="subtask" maxlength="120"></li>
+				Notes:
+				<li><input type="text" name="notes" maxlength="120" ></li>
+				Due Date (DD.MM.YYYY):
+				<li><input type="text" name="dueDate" maxlength="120" ></li>
+				Hashtag:(A comma-separated list of tags.)
+				<li><input type="text" name="tags" maxlength="120" ></li>
+				Task Done?
+				<li><input type="checkbox" name="taskDone" maxlength="120" ></li>
+                
+            </ul>
+
+            <input type="submit" name="submit" value="Create Item">
+        </form>
+    </body>
+
+</html>

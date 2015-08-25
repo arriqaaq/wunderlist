@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      *, *:before, *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: #384047;
+}
+
+form {
+  max-width: 300px;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background: #f4f7f8;
+  border-radius: 8px;
+}
+
+h1 {
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"],
+input[type="datetime"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+textarea,
+select {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  font-size: 16px;
+  height: auto;
+  margin: 0;
+  outline: 0;
+  padding: 15px;
+  width: 100%;
+  background-color: #e8eeef;
+  color: #8a97a0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
+  margin-bottom: 30px;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0 4px 8px 0;
+}
+
+select {
+  padding: 6px;
+  height: 32px;
+  border-radius: 2px;
+}
+
+button {
+  padding: 19px 39px 18px 39px;
+  color: #FFF;
+  background-color: #4bc970;
+  font-size: 18px;
+  text-align: center;
+  font-style: normal;
+  border-radius: 5px;
+  width: 40%;
+  border: 1px solid #3ac162;
+  border-width: 1px 1px 3px;
+  box-shadow: 0 -1px 0 rgba(255,255,255,0.1) inset;
+  margin-bottom: 10px;
+}
+
+fieldset {
+  margin-bottom: 30px;
+  border: none;
+}
+
+legend {
+  font-size: 1.4em;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+label.light {
+  font-weight: 300;
+  display: inline;
+}
+
+.number {
+  background-color: #5fcf80;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  font-size: 0.8em;
+  margin-right: 4px;
+  line-height: 30px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.2);
+  border-radius: 100%;
+}
+
+@media screen and (min-width: 480px) {
+
+  form {
+    max-width: 480px;
+  }
+
+}
+    </style>      
+    </head>
+    <body>
+
+      <form id="resubmit_form" method="post" action="/wunderlist/edit/{{page.id}}/">
+		{% csrf_token %}
+        <h1>Wunderlist</h1>
+        
+        <fieldset>
+        
+          <h1>{{ page.title }}</h1>
+        
+            {% if page %}
+            <ul>
+				<li>{{page.category}}</li>
+				Title: {{page.title}}
+				<input type="text" name="title" maxlength="120" value={{page.title}}>
+				SubTask: {{page.subtask}}
+				<input type="text" name="subtask" maxlength="150" value={{page.subtask}}>
+				Notes: {{page.notes}}
+				<input type="text" name="notes" maxlength="120" value={{page.notes}}>
+				
+				Due Date (YYYY-MM-DD): {{page.dueDate|date:"Y-m-d"}}
+				<input type="date" name="dueDate" maxlength="120" value={{page.dueDate|date:"Y-m-d"}}>
+				Hashtag:
+				{% for tag in page.tags.all %}
+					<a href="/wunderlist/search/?q={{tag.name}}">{{ tag.name }}</a>
+				{% endfor %}
+				<input type="text" name="tags" maxlength="120">
+				<ul>
+        
+    </ul>
+				Task Done?
+				{% if page.taskDone %}
+					Yes!
+				{% else %}
+					<input type="checkbox" name="taskDone" maxlength="120" value={{page.taskDone}}>
+				{% endif %}
+            </ul>
+            
+			{% else %}
+                <strong>No pages currently in category.</strong>
+            {% endif %}
+			<input type="submit" name="Update" value="Update Page" />
+        </form>
+        </fieldset>
+        
+        <fieldset>
+		<form>
+			{% if post.comment_set.all %}
+			<h2>Comments</h2>
+			<div class="comments">
+				{% for comment in post.comment_set.all %}
+					<span>
+						<a href="{{ comment.website }}">{{ comment.name }}</a> said on {{ comment.created_on }}
+					</span>
+					<p>
+						{{ comment.text }}
+					</p>
+				{% endfor %}
+			</div>
+			{% endif %}
+		</form>
+		</fieldset>
+			<br />
+<fieldset>
+
+<form action="" method="POST">
+	<h2>Add Comment</h2>
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" name="submit" value="Submit" />
+</form>
+</fieldset>
+        
+        <fieldset>
+		 </fieldset>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<button type="submit"><a href="/wunderlist/">Main Menu</a></button>
+			
+      
+    </body>
+</html>
